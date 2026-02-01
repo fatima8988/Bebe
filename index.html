@@ -7,15 +7,25 @@
 </head>
 <body>
 
-  <div class="container">
+  <div id="intro" class="screen">
+    <h1>Hi my love 💌</h1>
+    <p>I made something for you.</p>
+    <button onclick="enterSite()">Open when ready</button>
+  </div>
+
+  <div id="main" class="screen hidden">
     <h1>Our Little Universe 💗</h1>
     <p>Chapter 1 — February 14</p>
 
-    <button onclick="showMessage()">Open</button>
-
-    <p id="message"></p>
+    <div class="cards">
+      <div class="card">🌸 Memories</div>
+      <div class="card">💌 Love Letters</div>
+      <div class="card">🔒 Hidden Messages</div>
+      <div class="card">🌤 Daily Reminder</div>
+    </div>
   </div>
 
   <script src="app.js"></script>
 </body>
+
 </html>
