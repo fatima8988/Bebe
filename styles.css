@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom, #fff0f5, #ffe6f0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #d6336c;
+}
+
+.container {
+  background: white;
+  padding: 40px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(214, 51, 108, 0.2);
+}
+
+button {
+  background: #ff4d6d;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 50px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #d6336c;
+}
