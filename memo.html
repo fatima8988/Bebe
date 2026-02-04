@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Memories 🌸</title>
+  <link rel="stylesheet" href="styles.css?v=4" />
+</head>
+<body>
+  <div class="container" style="max-width: 900px; width: 100%;">
+    <h1>Memories 🌸</h1>
+
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <button id="loginBtn">Sign in with Google</button>
+      <button id="logoutBtn" class="ghost">Sign out</button>
+      <span id="who"></span>
+    </div>
+
+    <hr style="margin: 24px 0; opacity: 0.2;" />
+
+    <div id="appArea" class="hidden">
+      <div class="card" style="margin-bottom: 18px;">
+        <h2 style="margin-top:0;">Add a memory</h2>
+
+        <input id="title" placeholder="Title (ex: Movie Night)"
+          style="width:100%; padding:12px; border-radius:12px; border:1px solid #ffd1e3; margin-bottom:10px;" />
+
+        <textarea id="description" placeholder="What happened? 🥺"
+          style="width:100%; padding:12px; border-radius:12px; border:1px solid #ffd1e3; min-height:110px; margin-bottom:10px;"></textarea>
+
+        <input id="imageUrl" placeholder="Photo link (optional)"
+          style="width:100%; padding:12px; border-radius:12px; border:1px solid #ffd1e3; margin-bottom:10px;" />
+
+        <div style="margin-top:12px;">
+          <button id="addBtn">Add Memory</button>
+          <span id="status" style="margin-left:10px;"></span>
+        </div>
+      </div>
+
+      <div id="memoriesList" class="cards" style="flex-wrap:wrap;"></div>
+    </div>
+
+    <p style="margin-top:20px;">
+      <a href="index.html">← back home</a>
+    </p>
+  </div>
+
+<script type="module" src="memories.js?v=4"></script>
+
+</body>
+</html>
+

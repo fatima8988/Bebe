@@ -64,3 +64,14 @@ button:hover {
 .card:hover {
   transform: translateY(-8px);
 }
+
+.hidden { display: none; }
+
+button.ghost {
+  background: white;
+  color: #ff4d6d;
+  border: 2px solid #ff4d6d;
+}
+button.ghost:hover {
+  background: #ffe6f0;
+}
