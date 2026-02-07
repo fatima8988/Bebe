@@ -71,3 +71,38 @@ button.ghost {
 button.ghost:hover {
   background: #ffe6f0;
 }
+/* Floating hearts background */
+.hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  bottom: -40px;
+  font-size: 18px;
+  opacity: 0.35;
+  animation: floatUp linear forwards;
+  filter: blur(0.2px);
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 0.0;
+  }
+  10% { opacity: 0.35; }
+  to {
+    transform: translateY(-110vh) scale(1.4);
+    opacity: 0.0;
+  }
+}
+
+/* Make sure your content stays above the hearts */
+.screen, .container {
+  position: relative;
+  z-index: 1;
+}
