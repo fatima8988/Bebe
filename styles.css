@@ -55,6 +55,9 @@ button:hover {
   box-shadow: 0 10px 25px rgba(214, 51, 108, 0.15);
   cursor: pointer;
   transition: 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .card:hover {
