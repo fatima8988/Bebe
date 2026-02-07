@@ -91,3 +91,50 @@ button.ghost:hover {
   from { transform: translateY(0); }
   to   { transform: translateY(-120vh); opacity: 0; }
 }
+.letters {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  text-align: left;
+}
+
+.letter {
+  background: white;
+  border-radius: 20px;
+  padding: 18px 18px;
+  box-shadow: 0 10px 25px rgba(214, 51, 108, 0.15);
+}
+
+.letterTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.badge {
+  background: #ffe6f0;
+  border: 1px solid #ffd1e3;
+  color: #d6336c;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.meta {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-left: auto;
+}
+
+.letter h3 {
+  margin: 0 0 10px 0;
+}
+
+.letterBody {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
