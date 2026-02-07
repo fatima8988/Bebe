@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Parisienne&display=swap');
+
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -102,10 +104,10 @@ button.ghost:hover {
 }
 
 .letter {
-  background: white;
-  border-radius: 20px;
-  padding: 18px 18px;
-  box-shadow: 0 10px 25px rgba(214, 51, 108, 0.15);
+  background: #fffafc;
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 12px 30px rgba(214, 51, 108, 0.18);
 }
 
 .letterTop {
@@ -133,11 +135,12 @@ button.ghost:hover {
 }
 
 .letter h3 {
-  margin: 0 0 10px 0;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 8px;
 }
 
 .letterBody {
-  margin: 0;
-  white-space: pre-wrap;
-  line-height: 1.5;
+  font-family: 'Parisienne', cursive;
+  font-size: 22px;
+  line-height: 1.6;
 }

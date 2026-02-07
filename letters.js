@@ -125,10 +125,31 @@ addBtn.onclick = async () => {
     bodyEl.value = "";
     pinnedEl.checked = false;
 
-    setStatus("Saved 💌");
+    setStatus("Sealed with love 💌✨");
     setTimeout(() => setStatus(""), 1500);
   } catch (e) {
     console.error(e);
     setStatus("Something went wrong 😭");
   }
 };
+// Heart burst when saving a letter
+addBtn.addEventListener("click", () => {
+  for (let i = 0; i < 12; i++) {
+    const h = document.createElement("div");
+    h.textContent = "💌";
+    h.style.position = "fixed";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.top = "60vh";
+    h.style.fontSize = "20px";
+    h.style.transition = "transform 1.2s ease, opacity 1.2s ease";
+    h.style.zIndex = "9999";
+    document.body.appendChild(h);
+
+    requestAnimationFrame(() => {
+      h.style.transform = `translateY(-120px) scale(1.4)`;
+      h.style.opacity = "0";
+    });
+
+    setTimeout(() => h.remove(), 1200);
+  }
+});
