@@ -41,10 +41,6 @@ button:hover {
   transition: opacity 0.8s ease;
 }
 
-.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
 
 .cards {
   display: flex;

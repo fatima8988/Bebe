@@ -19,7 +19,17 @@ const addBtn = document.getElementById("addBtn");
 const statusEl = document.getElementById("status");
 const listEl = document.getElementById("memoriesList");
 
-loginBtn.onclick = async () => signInWithPopup(auth, provider);
+loginBtn.onclick = async () => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (e) {
+    console.error("Sign-in error:", e);
+    const code = e?.code || "";
+    const msg = e?.message || "Unknown error";
+    document.getElementById("who").textContent = `${code} — ${msg}`;
+  }
+};
+
 logoutBtn.onclick = async () => signOut(auth);
 
 function setStatus(msg) { statusEl.textContent = msg; }
