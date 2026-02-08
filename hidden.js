@@ -1,6 +1,15 @@
 import { auth, provider, db } from "./firebase.js";
 import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
-import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  serverTimestamp,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
@@ -35,7 +44,11 @@ function setStatus(msg) {
 
 function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (m) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
   }[m]));
 }
 
@@ -54,24 +67,18 @@ function renderItem(item, id) {
   div.innerHTML = `
     <div class="hiddenTop">
       <span class="hiddenTag">${tag}</span>
-      <span class="hiddenMeta">${escapeHtml(item.authorName || "")}${item.createdAt ? " • " + formatDate(item.createdAt) : ""}</span>
+      <span class="hiddenMeta">
+        ${escapeHtml(item.authorName || "")}
+        ${item.createdAt ? " • " + formatDate(item.createdAt) : ""}
+      </span>
     </div>
 
-    <div class="hiddenBody locked" data-id="${id}">
-      ${escapeHtml(item.text || "")}
-    </div>
+    <div class="hiddenBody locked">${escapeHtml(item.text || "")}</div>
 
     <div class="hiddenActions">
       <button class="revealBtn">Reveal 💗</button>
       <button class="deleteBtn" title="Delete">🗑</button>
     </div>
-    const delBtn = div.querySelector(".deleteBtn");
-
-delBtn.onclick = async () => {
-  if (!confirm("Delete this hidden message? 💔")) return;
-  await deleteDoc(doc(db, "hiddenMessages", id));
-};
-
   `;
 
   const body = div.querySelector(".hiddenBody");
@@ -84,8 +91,13 @@ delBtn.onclick = async () => {
   };
 
   delBtn.onclick = async () => {
-    if (!confirm("Delete this hidden message?")) return;
-    await deleteDoc(doc(db, "hiddenMessages", id));
+    if (!confirm("Delete this hidden message? 💔")) return;
+    try {
+      await deleteDoc(doc(db, "hiddenMessages", id));
+    } catch (e) {
+      console.error(e);
+      alert("Could not delete 😭");
+    }
   };
 
   return div;
@@ -96,7 +108,9 @@ function startListener() {
 
   onSnapshot(q, (snap) => {
     listEl.innerHTML = "";
-    snap.forEach((d) => listEl.appendChild(renderItem(d.data(), d.id)));
+    snap.forEach((d) => {
+      listEl.appendChild(renderItem(d.data(), d.id));
+    });
   });
 }
 
@@ -136,6 +150,7 @@ addBtn.onclick = async () => {
 
   try {
     setStatus("Locking… 🔒");
+
     await addDoc(collection(db, "hiddenMessages"), {
       type,
       text,
