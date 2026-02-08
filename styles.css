@@ -114,18 +114,6 @@ button.ghost:hover {
   to   { transform: translateY(-120vh); opacity: 0; }
 }
 
-/* ---------- Delete button (ALWAYS VISIBLE) ---------- */
-.deleteBtn {
-  background: #ffcfe2;          /* soft pink pill */
-  border: 1px solid #ffd1e3;
-  cursor: pointer;
-  font-size: 14px;
-  margin-left: 8px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  color: #d6336c;
-}
-
 
 /* ---------- Love Letters ---------- */
 .letters {
@@ -242,3 +230,23 @@ button.ghost:hover {
   align-items: center;
 }
 
+.deleteBtn {
+  background: #ffe6f0;          /* soft pink pill */
+  border: 1px solid #ffd1e3;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  opacity: 1;
+  color: #d6336c;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.deleteBtn:hover {
+  background: #ff91bd;
+  transform: scale(1.1);
+}
+.deleteBtn:active {
+  transform: scale(0.95);
+}
