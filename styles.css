@@ -149,7 +149,7 @@ button.ghost:hover {
   border: none;
   cursor: pointer;
   font-size: 14px;
-  opacity: 0.5;
+  opacity: 0.8;
   margin-left: 8px;
 }
 .deleteBtn:hover { opacity: 1; }

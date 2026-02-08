@@ -70,7 +70,6 @@ function renderLetter(letter, id) {
         ${escapeHtml(letter.authorName || "")}
         ${letter.createdAt ? " • " + formatDate(letter.createdAt) : ""}
         <button class="deleteBtn" title="Delete letter">🗑</button>
-      </div>
     </div>
     ${letter.title ? `<h3>${escapeHtml(letter.title)}</h3>` : ""}
     <p class="letterBody">${escapeHtml(letter.body || "")}</p>
