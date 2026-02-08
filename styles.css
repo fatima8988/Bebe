@@ -1,16 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Parisienne&display=swap');
 
 /* ---------- Base ---------- */
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(to bottom, #fff0f5, #ffe6f0);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   color: #d6336c;
+
+  /* IMPORTANT fixes */
+  min-height: 100vh;     /* background always covers full page */
+  height: auto;          /* allows tall pages */
+  overflow-x: hidden;    /* no side scrolling */
+  display: block;        /* remove flex centering that breaks scroll */
 }
+
 
 .container {
   background: white;
@@ -18,7 +25,13 @@ body {
   border-radius: 25px;
   text-align: center;
   box-shadow: 0 15px 30px rgba(214, 51, 108, 0.2);
+
+  /* NEW */
+  max-width: 900px;
+  width: calc(100% - 40px);
+  margin: 40px auto;     /* centers + gives space top/bottom */
 }
+
 
 /* ---------- Buttons ---------- */
 button {

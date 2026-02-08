@@ -1,11 +1,20 @@
 import { auth, provider, db } from "./firebase.js";
 import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
-import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  serverTimestamp,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
-  "Niclaskuzio@icloud.com"
-];
+  "niclaskuzio@icloud.com"
+].map(e => e.toLowerCase());
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -24,9 +33,7 @@ loginBtn.onclick = async () => {
     await signInWithPopup(auth, provider);
   } catch (e) {
     console.error("Sign-in error:", e);
-    const code = e?.code || "";
-    const msg = e?.message || "Unknown error";
-    document.getElementById("who").textContent = `${code} — ${msg}`;
+    who.textContent = `${e?.code || ""} — ${e?.message || "Unknown error"}`;
   }
 };
 
@@ -40,21 +47,37 @@ function escapeHtml(str) {
   }[m]));
 }
 
-function renderMemory(mem) {
+function renderMemory(mem, id) {
   const div = document.createElement("div");
   div.className = "card";
   div.style.width = "260px";
+  div.style.position = "relative";
 
-  const img = mem.imageUrl
-    ? `<img src="${mem.imageUrl}" style="width:100%; border-radius:16px; margin-bottom:10px;" />`
+  const imgHtml = mem.imageUrl
+    ? `<img src="${escapeHtml(mem.imageUrl)}"
+         style="width:100%; border-radius:16px; margin:10px 0;"
+         onerror="this.style.display='none';" />`
     : "";
 
   div.innerHTML = `
+    <button class="deleteBtn" title="Delete" style="position:absolute; top:10px; right:10px;">🗑</button>
+
     <h3 style="margin-top:0;">${escapeHtml(mem.title || "Memory")}</h3>
-    ${img}
+    ${imgHtml}
     <p style="margin:0; white-space:pre-wrap;">${escapeHtml(mem.description || "")}</p>
     <p style="margin-top:10px; font-size:12px; opacity:0.7;">${escapeHtml(mem.authorName || "")}</p>
   `;
+
+  div.querySelector(".deleteBtn").onclick = async () => {
+    if (!confirm("Delete this memory? 💔")) return;
+    try {
+      await deleteDoc(doc(db, "memories", id));
+    } catch (e) {
+      console.error(e);
+      alert("Could not delete 😭");
+    }
+  };
+
   return div;
 }
 
@@ -62,7 +85,9 @@ function startListener() {
   const q = query(collection(db, "memories"), orderBy("createdAt", "desc"));
   onSnapshot(q, (snap) => {
     listEl.innerHTML = "";
-    snap.forEach((doc) => listEl.appendChild(renderMemory(doc.data())));
+    snap.forEach((d) => {
+      listEl.appendChild(renderMemory(d.data(), d.id));
+    });
   });
 }
 
@@ -73,7 +98,7 @@ onAuthStateChanged(auth, (user) => {
     return;
   }
 
-  const email = user.email || "";
+  const email = (user.email || "").toLowerCase();
   if (!ALLOWED_EMAILS.includes(email)) {
     who.textContent = `Signed in as ${email} (not allowed)`;
     appArea.classList.add("hidden");
@@ -89,7 +114,7 @@ addBtn.onclick = async () => {
   const user = auth.currentUser;
   if (!user) return;
 
-  const email = user.email || "";
+  const email = (user.email || "").toLowerCase();
   if (!ALLOWED_EMAILS.includes(email)) return;
 
   const title = titleEl.value.trim();
