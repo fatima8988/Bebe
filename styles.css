@@ -20,7 +20,7 @@ body {
   box-shadow: 0 15px 30px rgba(214, 51, 108, 0.2);
 }
 
-/* Buttons */
+/* ---------- Buttons ---------- */
 button {
   background: #ff4d6d;
   border: none;
@@ -45,7 +45,7 @@ button.ghost:hover {
   background: #ffe6f0;
 }
 
-/* Screens */
+/* ---------- Screens ---------- */
 .screen {
   position: absolute;
   width: 100%;
@@ -114,8 +114,7 @@ button.ghost:hover {
   to   { transform: translateY(-120vh); opacity: 0; }
 }
 
-/* ---------- Shared Delete Button ---------- */
-/* default: visible enough everywhere */
+/* ---------- Delete button (ALWAYS VISIBLE) ---------- */
 .deleteBtn {
   background: none;
   border: none;
@@ -124,13 +123,13 @@ button.ghost:hover {
   margin-left: 8px;
   padding: 6px 8px;
   border-radius: 999px;
-  opacity: 0.85;
-  transition: opacity 0.2s ease, background 0.2s ease;
+  opacity: 1;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .deleteBtn:hover {
-  opacity: 1;
   background: #ffe6f0;
+  transform: translateY(-1px);
 }
 
 /* ---------- Love Letters ---------- */
@@ -187,24 +186,6 @@ button.ghost:hover {
   margin: 0;
   white-space: pre-wrap;
 }
-
-/* Delete button – always visible */
-.deleteBtn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  margin-left: 8px;
-  padding: 6px 8px;
-  border-radius: 999px;
-  opacity: 1;
-  transition: background 0.2s ease;
-}
-
-.deleteBtn:hover {
-  background: #ffe6f0;
-}
-
 
 /* ---------- Hidden Messages ---------- */
 .hiddenList {
@@ -264,11 +245,4 @@ button.ghost:hover {
   gap: 10px;
   margin-top: 12px;
   align-items: center;
-}
-
-/* FORCE show delete button on Hidden Messages */
-.hiddenItem .deleteBtn {
-  opacity: 1 !important;
-  display: inline-block !important;
-  visibility: visible !important;
 }
