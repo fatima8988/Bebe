@@ -1,24 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Parisienne&display=swap');
 
 /* ---------- Base ---------- */
-html, body {
-  height: 100%;
+html {
+  min-height: 100%;
+  background: linear-gradient(to bottom, #fff0f5, #ffe6f0);
 }
 
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to bottom, #fff0f5, #ffe6f0);
+  background: transparent; /* html holds the gradient */
   color: #d6336c;
 
-  /* IMPORTANT fixes */
-  min-height: 100vh;     /* background always covers full page */
-  height: auto;          /* allows tall pages */
-  overflow-x: hidden;    /* no side scrolling */
-  display: block;        /* remove flex centering that breaks scroll */
+  min-height: 100%;
+  height: auto;
+  overflow-x: hidden;
+  display: block;
 }
 
-
+/* Container */
 .container {
   background: white;
   padding: 40px;
@@ -26,12 +26,10 @@ body {
   text-align: center;
   box-shadow: 0 15px 30px rgba(214, 51, 108, 0.2);
 
-  /* NEW */
   max-width: 900px;
   width: calc(100% - 40px);
-  margin: 40px auto;     /* centers + gives space top/bottom */
+  margin: 40px auto;
 }
-
 
 /* ---------- Buttons ---------- */
 button {
@@ -44,9 +42,7 @@ button {
   font-size: 16px;
 }
 
-button:hover {
-  background: #d6336c;
-}
+button:hover { background: #d6336c; }
 
 button.ghost {
   background: white;
@@ -54,11 +50,9 @@ button.ghost {
   border: 2px solid #ff4d6d;
 }
 
-button.ghost:hover {
-  background: #ffe6f0;
-}
+button.ghost:hover { background: #ffe6f0; }
 
-/* ---------- Screens ---------- */
+/* ---------- Screens (Homepage only) ---------- */
 .screen {
   position: absolute;
   width: 100%;
@@ -96,9 +90,7 @@ button.ghost:hover {
   text-align: center;
 }
 
-.card:hover {
-  transform: translateY(-8px);
-}
+.card:hover { transform: translateY(-8px); }
 
 /* ---------- Floating Hearts ---------- */
 .hearts {
@@ -124,7 +116,7 @@ button.ghost:hover {
 
 @keyframes floatUp {
   from { transform: translateY(0); }
-  to   { transform: translateY(-120vh); opacity: 0; }
+  to { transform: translateY(-120vh); opacity: 0; }
 }
 
 /* ---------- Love Letters ---------- */
@@ -263,12 +255,9 @@ button.ghost:hover {
   transform: scale(1.1);
 }
 
-.deleteBtn:active {
-  transform: scale(0.95);
-}
+.deleteBtn:active { transform: scale(0.95); }
 
-/* ---------- HARD OVERRIDE (wins against old cached CSS) ---------- */
-/* If ANY older CSS still tries to hide it on hover, this prevents that. */
+/* Hard override against any old hover-hide rules */
 .letter .deleteBtn,
 .hiddenItem .deleteBtn,
 .hiddenActions .deleteBtn,
@@ -277,6 +266,8 @@ button.ghost:hover {
   visibility: visible !important;
   display: inline-flex !important;
 }
+
+/* ---------- Daily ---------- */
 .dailyToday {
   background: #fffafc;
   border: 1px solid #ffd1e3;
