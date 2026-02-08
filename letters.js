@@ -1,6 +1,15 @@
 import { auth, provider, db } from "./firebase.js";
 import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
-import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  serverTimestamp,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
@@ -30,48 +39,69 @@ loginBtn.onclick = async () => {
 
 logoutBtn.onclick = async () => signOut(auth);
 
-function setStatus(msg) { statusEl.textContent = msg; }
+function setStatus(msg) {
+  statusEl.textContent = msg;
+}
 
 function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (m) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
   }[m]));
 }
 
 function formatDate(ts) {
-  // Firestore Timestamp -> JS Date
   const d = ts?.toDate ? ts.toDate() : null;
   if (!d) return "";
   return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
-function renderLetter(letter) {
+function renderLetter(letter, id) {
   const div = document.createElement("div");
   div.className = "letter";
 
-  const badge = letter.pinned ? `<span class="badge">Pinned 💗</span>` : "";
-  const title = letter.title ? `<h3>${escapeHtml(letter.title)}</h3>` : "";
-  const date = `<div class="meta">${escapeHtml(letter.authorName || "")}${letter.createdAt ? " • " + formatDate(letter.createdAt) : ""}</div>`;
-
   div.innerHTML = `
     <div class="letterTop">
-      ${badge}
-      ${date}
+      ${letter.pinned ? `<span class="badge">Pinned 💗</span>` : ""}
+      <div class="meta">
+        ${escapeHtml(letter.authorName || "")}
+        ${letter.createdAt ? " • " + formatDate(letter.createdAt) : ""}
+        <button class="deleteBtn" title="Delete letter">🗑</button>
+      </div>
     </div>
-    ${title}
+    ${letter.title ? `<h3>${escapeHtml(letter.title)}</h3>` : ""}
     <p class="letterBody">${escapeHtml(letter.body || "")}</p>
   `;
-  return div;
+
+  const delBtn = div.querySelector(".deleteBtn");
+  delBtn.onclick = async () => {
+    if (!confirm("Delete this letter? 💔")) return;
+    try {
+      await deleteDoc(doc(db, "letters", id));
+    } catch (e) {
+      console.error(e);
+      alert("Could not delete 😭");
+    }
+  };
+
+  return div; // ✅ IMPORTANT
 }
 
 function startListener() {
-  // Note: We sort by pinned first (desc), then createdAt desc.
-  // For this to work well long-term, you may be prompted to create a Firestore index (it will give you a link).
-  const q = query(collection(db, "letters"), orderBy("pinned", "desc"), orderBy("createdAt", "desc"));
+  const q = query(
+    collection(db, "letters"),
+    orderBy("pinned", "desc"),
+    orderBy("createdAt", "desc")
+  );
 
   onSnapshot(q, (snap) => {
     listEl.innerHTML = "";
-    snap.forEach((doc) => listEl.appendChild(renderLetter(doc.data())));
+    snap.forEach((d) => {
+      listEl.appendChild(renderLetter(d.data(), d.id));
+    });
   });
 }
 
@@ -132,7 +162,8 @@ addBtn.onclick = async () => {
     setStatus("Something went wrong 😭");
   }
 };
-// Heart burst when saving a letter
+
+// 💌 Heart burst when saving a letter (kept from you)
 addBtn.addEventListener("click", () => {
   for (let i = 0; i < 12; i++) {
     const h = document.createElement("div");

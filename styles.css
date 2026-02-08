@@ -144,3 +144,12 @@ button.ghost:hover {
   font-size: 22px;
   line-height: 1.6;
 }
+.deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.5;
+  margin-left: 8px;
+}
+.deleteBtn:hover { opacity: 1; }
