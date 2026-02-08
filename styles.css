@@ -315,3 +315,14 @@ button.ghost:hover { background: #ffe6f0; }
   flex: 1;
   white-space: pre-wrap;
 }
+
+/* ===== Fix form overflow (Memories inputs) ===== */
+*, *::before, *::after { box-sizing: border-box; }
+
+.card, .container { overflow: hidden; } /* stops tiny overhangs */
+
+input, textarea, select {
+  box-sizing: border-box !important;
+  max-width: 100%;
+  display: block;
+}
