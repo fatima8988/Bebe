@@ -65,6 +65,13 @@ function renderItem(item, id) {
       <button class="revealBtn">Reveal 💗</button>
       <button class="deleteBtn" title="Delete">🗑</button>
     </div>
+    const delBtn = div.querySelector(".deleteBtn");
+
+delBtn.onclick = async () => {
+  if (!confirm("Delete this hidden message? 💔")) return;
+  await deleteDoc(doc(db, "hiddenMessages", id));
+};
+
   `;
 
   const body = div.querySelector(".hiddenBody");
