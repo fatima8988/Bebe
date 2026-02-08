@@ -128,8 +128,8 @@ button.ghost:hover {
 }
 
 .deleteBtn:hover {
-  background: #ffe6f0;
-  transform: translateY(-1px);
+  background: #ff91bd;
+    transform: scale(1.1);
 }
 
 /* ---------- Love Letters ---------- */
