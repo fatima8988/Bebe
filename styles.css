@@ -264,3 +264,34 @@ button.ghost:hover {
   visibility: visible !important;
   display: inline-flex !important;
 }
+.dailyToday {
+  background: #fffafc;
+  border: 1px solid #ffd1e3;
+  border-radius: 18px;
+  padding: 18px;
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.dailyList {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.dailyRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  background: #fffafc;
+  border: 1px solid #ffd1e3;
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+
+.dailyText {
+  flex: 1;
+  white-space: pre-wrap;
+}
