@@ -252,7 +252,9 @@ button.ghost:hover {
   align-items: center;
 }
 
-/* IMPORTANT: Always show delete on Hidden Messages (no hover needed) */
-.hiddenActions .deleteBtn {
+/* FORCE show delete button on Hidden Messages */
+.hiddenItem .deleteBtn {
   opacity: 1 !important;
+  display: inline-block !important;
+  visibility: visible !important;
 }
