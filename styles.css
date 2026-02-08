@@ -326,3 +326,10 @@ input, textarea, select {
   max-width: 100%;
   display: block;
 }
+/* ---------- Back Home Button ---------- */
+.backBtn {
+  margin-top: 20px;
+  font-size: 15px;
+  padding: 10px 22px;
+  border-radius: 999px;
+}
