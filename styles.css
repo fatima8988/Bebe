@@ -188,9 +188,23 @@ button.ghost:hover {
   white-space: pre-wrap;
 }
 
-/* Optional: hide delete on letters until hover (nice aesthetic) */
-.letter .deleteBtn { opacity: 0; }
-.letter:hover .deleteBtn { opacity: 0.9; }
+/* Delete button – always visible */
+.deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 8px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  opacity: 1;
+  transition: background 0.2s ease;
+}
+
+.deleteBtn:hover {
+  background: #ffe6f0;
+}
+
 
 /* ---------- Hidden Messages ---------- */
 .hiddenList {
