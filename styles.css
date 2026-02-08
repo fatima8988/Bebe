@@ -114,7 +114,6 @@ button.ghost:hover {
   to   { transform: translateY(-120vh); opacity: 0; }
 }
 
-
 /* ---------- Love Letters ---------- */
 .letters {
   display: grid;
@@ -155,6 +154,7 @@ button.ghost:hover {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
 .letter h3 {
@@ -228,10 +228,12 @@ button.ghost:hover {
   gap: 10px;
   margin-top: 12px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
+/* ---------- Delete Button (ALWAYS visible + pink pill) ---------- */
 .deleteBtn {
-  background: #ffe6f0;          /* soft pink pill */
+  background: #ffe6f0;
   border: 1px solid #ffd1e3;
   cursor: pointer;
   font-size: 14px;
@@ -247,6 +249,18 @@ button.ghost:hover {
   background: #ff91bd;
   transform: scale(1.1);
 }
+
 .deleteBtn:active {
   transform: scale(0.95);
+}
+
+/* ---------- HARD OVERRIDE (wins against old cached CSS) ---------- */
+/* If ANY older CSS still tries to hide it on hover, this prevents that. */
+.letter .deleteBtn,
+.hiddenItem .deleteBtn,
+.hiddenActions .deleteBtn,
+.meta .deleteBtn {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: inline-flex !important;
 }
