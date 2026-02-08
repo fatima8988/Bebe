@@ -156,3 +156,62 @@ button.ghost:hover {
 .deleteBtn { opacity: 0; transition: opacity 0.2s ease; }
 .letter:hover .deleteBtn { opacity: 0.6; }
 .letter:hover .deleteBtn:hover { opacity: 1; }
+
+.hiddenList {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  text-align: left;
+}
+
+.hiddenItem {
+  background: white;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 10px 25px rgba(214, 51, 108, 0.15);
+}
+
+.hiddenTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.hiddenTag {
+  background: #ffe6f0;
+  border: 1px solid #ffd1e3;
+  color: #d6336c;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.hiddenMeta {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.hiddenBody {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid #ffd1e3;
+  background: #fffafc;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  transition: 0.25s ease;
+}
+
+.hiddenBody.locked {
+  filter: blur(10px);
+  user-select: none;
+}
+
+.hiddenActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  align-items: center;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hidden Messages 🔒</title>
+  <link rel="stylesheet" href="styles.css?v=50" />
+</head>
+
+<body>
+  <div class="hearts" aria-hidden="true"></div>
+
+  <div class="container" style="max-width: 900px; width: 100%;">
+    <h1>Hidden Messages 🔒</h1>
+    <p style="margin-top:-10px; opacity:0.75;">For things we’re shy to say out loud.</p>
+
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; align-items:center;">
+      <button id="loginBtn">Sign in with Google</button>
+      <button id="logoutBtn" class="ghost">Sign out</button>
+      <span id="who"></span>
+    </div>
+
+    <hr style="margin: 24px 0; opacity: 0.2;" />
+
+    <div id="appArea" class="hidden">
+      <div class="card" style="margin-bottom: 18px; text-align:left;">
+        <h2 style="margin-top:0; text-align:center;">Leave a hidden message</h2>
+
+        <select id="type" style="width:100%; padding:12px; border-radius:12px; border:1px solid #ffd1e3; margin-bottom:10px;">
+          <option value="soft">🌷 Soft confession</option>
+          <option value="hard">🫧 Hard thing</option>
+        </select>
+
+        <textarea id="text"
+          placeholder="Write it gently…"
+          style="width:100%; padding:12px; border-radius:12px; border:1px solid #ffd1e3; min-height:140px; margin-bottom:10px;"></textarea>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <button id="addBtn">Lock it 🔒</button>
+          <span id="status"></span>
+        </div>
+      </div>
+
+      <div id="list" class="hiddenList"></div>
+    </div>
+
+    <p style="margin-top:20px;">
+      <a href="index.html">← back home</a>
+    </p>
+  </div>
+
+  <script type="module" src="hidden.js?v=50"></script>
+</body>
+</html>
