@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Parisienne&display=swap');
 
+/* ---------- Box model fix (VERY IMPORTANT) ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* ---------- Base ---------- */
 html {
   min-height: 100%;
@@ -16,6 +21,17 @@ body {
   height: auto;
   overflow-x: hidden;
   display: block;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid #ffd1e3;
+  font-size: 16px;
+  font-family: inherit;
 }
 
 /* Container */
