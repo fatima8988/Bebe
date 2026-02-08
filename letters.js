@@ -78,7 +78,7 @@ function renderLetter(letter, id) {
 
   const delBtn = div.querySelector(".deleteBtn");
   delBtn.onclick = async () => {
-    if (!confirm("Delete this letter? 💔")) return;
+    if (!confirm("Delete this letter forever? 💔\n\n(You can always write it again.)")) return;
     try {
       await deleteDoc(doc(db, "letters", id));
     } catch (e) {

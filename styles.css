@@ -153,3 +153,6 @@ button.ghost:hover {
   margin-left: 8px;
 }
 .deleteBtn:hover { opacity: 1; }
+.deleteBtn { opacity: 0; transition: opacity 0.2s ease; }
+.letter:hover .deleteBtn { opacity: 0.6; }
+.letter:hover .deleteBtn:hover { opacity: 1; }
