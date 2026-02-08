@@ -13,8 +13,8 @@ import {
 
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
-  "Niclaskuzio@icloud.com"
-];
+  "niclaskuzio@icloud.com"
+].map(e => e.toLowerCase());
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -118,10 +118,13 @@ onAuthStateChanged(auth, (user) => {
   if (!user) {
     who.textContent = "";
     appArea.classList.add("hidden");
+    loginBtn.classList.remove("hidden");
+    logoutBtn.classList.add("hidden");
     return;
   }
 
-  const email = user.email || "";
+  const email = (user.email || "").toLowerCase();
+
   if (!ALLOWED_EMAILS.includes(email)) {
     who.textContent = `Signed in as ${email} (not allowed)`;
     appArea.classList.add("hidden");
@@ -130,6 +133,8 @@ onAuthStateChanged(auth, (user) => {
 
   who.textContent = `Signed in as ${user.displayName || email}`;
   appArea.classList.remove("hidden");
+  loginBtn.classList.add("hidden");
+  logoutBtn.classList.remove("hidden");
   startListener();
 });
 
@@ -137,7 +142,7 @@ addBtn.onclick = async () => {
   const user = auth.currentUser;
   if (!user) return;
 
-  const email = user.email || "";
+  const email = (user.email || "").toLowerCase();
   if (!ALLOWED_EMAILS.includes(email)) return;
 
   const type = typeEl.value;
