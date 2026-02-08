@@ -81,8 +81,10 @@ button.ghost:hover {
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 999; /* make sure it’s above everything */
+  z-index: 0; /* make sure it’s above everything */
 }
+
+.screen, .container { position: relative; z-index: 1; }
 
 .heart {
   position: absolute;
@@ -149,13 +151,19 @@ button.ghost:hover {
   border: none;
   cursor: pointer;
   font-size: 14px;
-  opacity: 0.8;
   margin-left: 8px;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
 }
+
 .deleteBtn:hover { opacity: 1; }
-.deleteBtn { opacity: 0; transition: opacity 0.2s ease; }
-.letter:hover .deleteBtn { opacity: 0.6; }
-.letter:hover .deleteBtn:hover { opacity: 1; }
+
+/* Show delete on hover for BOTH letters and hidden messages */
+.letter:hover .deleteBtn,
+.hiddenItem:hover .deleteBtn {
+  opacity: 0.9;
+}
+
 
 .hiddenList {
   display: grid;
