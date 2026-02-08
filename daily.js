@@ -11,13 +11,11 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
-/* ---------- Allowed emails ---------- */
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
   "niclaskuzio@icloud.com"
 ].map(e => e.toLowerCase());
 
-/* ---------- Elements ---------- */
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const who = document.getElementById("who");
@@ -31,29 +29,26 @@ const todayBox = document.getElementById("todayBox");
 const newPickBtn = document.getElementById("newPickBtn");
 const listEl = document.getElementById("list");
 
-/* ---------- State ---------- */
 let remindersCache = [];
 let randomOffset = 0;
 
-/* ---------- Auth ---------- */
 loginBtn.onclick = async () => {
   try {
     await signInWithPopup(auth, provider);
   } catch (e) {
-    console.error(e);
-    who.textContent = "Sign in failed 😭";
+    console.error("Sign-in error:", e);
+    who.textContent = `${e?.code || ""} — ${e?.message || "Unknown error"}`;
   }
 };
 
 logoutBtn.onclick = async () => signOut(auth);
 
-/* ---------- Helpers ---------- */
 function setStatus(msg) {
   statusEl.textContent = msg;
 }
 
 function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, m => ({
+  return String(str).replace(/[&<>"']/g, (m) => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
@@ -62,20 +57,16 @@ function escapeHtml(str) {
   }[m]));
 }
 
-/* Stable daily key (Stockholm time) */
+// Stockholm-ish stable “day key” by local browser time (good enough for you two)
 function dayKey() {
-  const parts = new Intl.DateTimeFormat("sv-SE", {
-    timeZone: "Europe/Stockholm",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  }).formatToParts(new Date());
-
-  const get = t => parts.find(p => p.type === t)?.value || "";
-  return `${get("year")}-${get("month")}-${get("day")}`;
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
 }
 
-/* Deterministic hash */
+// Simple deterministic hash
 function hashString(s) {
   let h = 0;
   for (let i = 0; i < s.length; i++) {
@@ -84,7 +75,6 @@ function hashString(s) {
   return h;
 }
 
-/* Pick today’s reminder */
 function pickToday(reminders) {
   if (!reminders.length) return "Add your first reminder 💗";
 
@@ -93,7 +83,6 @@ function pickToday(reminders) {
   return reminders[idx]?.text || "💗";
 }
 
-/* ---------- Render ---------- */
 function renderToday() {
   todayBox.textContent = pickToday(remindersCache);
 }
@@ -101,10 +90,9 @@ function renderToday() {
 function renderList(reminders) {
   listEl.innerHTML = "";
 
-  reminders.forEach(r => {
+  reminders.forEach((r) => {
     const row = document.createElement("div");
     row.className = "dailyRow";
-
     row.innerHTML = `
       <div class="dailyText">${escapeHtml(r.text || "")}</div>
       <button class="deleteBtn" title="Delete">🗑</button>
@@ -119,28 +107,24 @@ function renderList(reminders) {
   });
 }
 
-/* ---------- Firestore ---------- */
 function startListener() {
-  const q = query(
-    collection(db, "dailyReminders"),
-    orderBy("createdAt", "desc")
-  );
+  const q = query(collection(db, "dailyReminders"), orderBy("createdAt", "desc"));
 
-  onSnapshot(q, snap => {
+  onSnapshot(q, (snap) => {
     remindersCache = [];
-    snap.forEach(d => remindersCache.push({ id: d.id, ...d.data() }));
+    snap.forEach((d) => remindersCache.push({ id: d.id, ...d.data() }));
+
     renderToday();
     renderList(remindersCache);
   });
 }
 
-/* ---------- Auth state ---------- */
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, (user) => {
   if (!user) {
+    who.textContent = "";
     appArea.classList.add("hidden");
     loginBtn.classList.remove("hidden");
     logoutBtn.classList.add("hidden");
-    who.textContent = "";
     return;
   }
 
@@ -159,7 +143,6 @@ onAuthStateChanged(auth, user => {
   startListener();
 });
 
-/* ---------- Add reminder ---------- */
 addBtn.onclick = async () => {
   const user = auth.currentUser;
   if (!user) return;
@@ -191,7 +174,6 @@ addBtn.onclick = async () => {
   }
 };
 
-/* ---------- Pick another ---------- */
 newPickBtn.onclick = () => {
   randomOffset++;
   renderToday();
