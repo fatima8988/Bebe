@@ -246,3 +246,9 @@ button.ghost:hover {
   margin-top: 12px;
   align-items: center;
 }
+/* FORCE: delete button always visible everywhere */
+.deleteBtn {
+  opacity: 1 !important;
+  display: inline-block !important;
+  visibility: visible !important;
+}
