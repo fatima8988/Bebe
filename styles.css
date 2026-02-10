@@ -487,3 +487,32 @@ input, textarea, select {
 .btnLink:active {
   transform: scale(0.96);
 }
+/* FORCE all btnLink states to look like a button */
+a.btnLink,
+a.btnLink:link,
+a.btnLink:visited,
+a.btnLink:hover,
+a.btnLink:active {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  background: white !important;
+  color: #ff4d6d !important;
+  border: 2px solid #ff4d6d !important;
+
+  padding: 10px 22px !important;
+  border-radius: 999px !important;
+
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: 0.2s ease !important;
+}
+
+a.btnLink:hover {
+  background: #ffe6f0 !important;
+}
+
+a.btnLink:active {
+  transform: scale(0.96) !important;
+}
