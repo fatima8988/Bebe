@@ -13,7 +13,7 @@ import {
 
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
-  "Niclaskuzio@icloud.com"
+  "niclakuzio844@gmail.com"
 ];
 
 const loginBtn = document.getElementById("loginBtn");

@@ -13,7 +13,7 @@ import {
 
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
-  "niclaskuzio@icloud.com"
+  "niclakuzio844@gmail.com"
 ].map(e => e.toLowerCase());
 
 const loginBtn = document.getElementById("loginBtn");
