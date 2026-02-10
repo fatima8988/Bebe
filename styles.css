@@ -333,3 +333,130 @@ input, textarea, select {
   padding: 10px 22px;
   border-radius: 999px;
 }
+.subtle { opacity: 0.7; }
+
+/* Dashboard layout */
+.dashGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 800px) {
+  .dashGrid { grid-template-columns: 1fr 1fr; }
+}
+
+.dashCard {
+  background: #fffafc;
+  border: 1px solid #ffd1e3;
+  border-radius: 22px;
+  padding: 18px;
+  box-shadow: 0 12px 30px rgba(214, 51, 108, 0.14);
+}
+
+.dashTitle {
+  margin: 0 0 12px 0;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+}
+
+.dashBig {
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: center;
+  padding: 14px;
+  border-radius: 16px;
+  background: white;
+  border: 1px solid #ffd1e3;
+}
+
+/* Mini letter */
+.dashLetter {
+  background: white;
+  border: 1px solid #ffd1e3;
+  border-radius: 16px;
+  padding: 14px;
+}
+.letterMiniTitle {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+.letterMiniBody {
+  font-family: 'Parisienne', cursive;
+  font-size: 22px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+.miniBadge {
+  display: inline-block;
+  margin-top: 10px;
+  background: #ffe6f0;
+  border: 1px solid #ffd1e3;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* Collage */
+.collage {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+@media (min-width: 700px) {
+  .collage { grid-template-columns: repeat(6, 1fr); }
+}
+.collageItem {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #ffd1e3;
+  background: white;
+  aspect-ratio: 1 / 1;
+}
+.collageItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Songs */
+.songAdd {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+@media (min-width: 700px) {
+  .songAdd { grid-template-columns: 1fr 1fr auto; align-items: center; }
+}
+.songAdd input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid #ffd1e3;
+  font-family: inherit;
+}
+
+.songsList {
+  display: grid;
+  gap: 10px;
+}
+
+.songRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid #ffd1e3;
+  border-radius: 16px;
+  background: white;
+}
+
+.songTitle { font-weight: 600; }
+.songLink {
+  font-size: 13px;
+  opacity: 0.75;
+  text-decoration: none;
+}
+.songLink:hover { opacity: 1; text-decoration: underline; }

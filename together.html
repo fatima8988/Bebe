@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Today With Us 💗</title>
+  <link rel="stylesheet" href="styles.css?v=10100">
+</head>
+
+<body>
+  <div class="hearts" aria-hidden="true"></div>
+
+  <div class="container">
+    <h1 style="margin-bottom:6px;">Today With Us 💗</h1>
+    <p id="todayDate" class="subtle" style="margin-top:0;"></p>
+
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; align-items:center; margin-top:12px;">
+      <button id="loginBtn">Sign in with Google</button>
+      <button id="logoutBtn" class="ghost hidden">Sign out</button>
+      <span id="who"></span>
+    </div>
+
+    <hr style="margin: 24px 0; opacity: 0.2;" />
+
+    <div id="appArea" class="hidden">
+
+      <!-- Top row: reminder + pinned letter -->
+      <div class="dashGrid">
+        <div class="dashCard">
+          <h2 class="dashTitle">🌤 Today’s Reminder</h2>
+          <div id="todayReminder" class="dashBig">Loading…</div>
+          <div style="text-align:center; margin-top:12px;">
+            <button id="remixBtn" class="ghost">Pick another</button>
+          </div>
+        </div>
+
+        <div class="dashCard">
+          <h2 class="dashTitle">💌 Love Letter</h2>
+          <div id="letterBox" class="dashLetter">Loading…</div>
+          <div style="text-align:center; margin-top:12px;">
+            <a class="ghost backBtn" href="letters.html">Open Letters</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collage -->
+      <div class="dashCard" style="margin-top:16px;">
+        <h2 class="dashTitle">📸 Our Little Collage</h2>
+        <div id="collage" class="collage">Loading…</div>
+        <div style="text-align:center; margin-top:12px;">
+          <a class="ghost backBtn" href="memo.html">Open Memories</a>
+        </div>
+      </div>
+
+      <!-- Songs -->
+      <div class="dashCard" style="margin-top:16px; text-align:left;">
+        <h2 class="dashTitle" style="text-align:center;">🎶 Our Songs</h2>
+
+        <div class="songAdd">
+          <input id="songTitle" placeholder="Song title (ex: Golden Hour)" />
+          <input id="songLink" placeholder="Link (Spotify/YouTube) optional" />
+          <button id="addSongBtn">Add</button>
+        </div>
+
+        <div id="songsList" class="songsList"></div>
+      </div>
+
+      <!-- Bottom buttons -->
+      <div style="margin-top:20px; text-align:center;">
+        <a class="ghost backBtn" href="index.html">← back home</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="together.js?v=10100"></script>
+</body>
+</html>
