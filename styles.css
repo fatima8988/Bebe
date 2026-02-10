@@ -460,3 +460,30 @@ input, textarea, select {
   text-decoration: none;
 }
 .songLink:hover { opacity: 1; text-decoration: underline; }
+/* Link that looks like a button */
+.btnLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: white;
+  color: #ff4d6d;
+  border: 2px solid #ff4d6d;
+
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
+
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btnLink:hover {
+  background: #ffe6f0;
+}
+
+.btnLink:active {
+  transform: scale(0.96);
+}
