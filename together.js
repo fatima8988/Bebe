@@ -1,5 +1,12 @@
 import { auth, provider, db } from "./firebase.js";
-import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+import {
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
 import {
   collection, addDoc, query, orderBy, onSnapshot,
   serverTimestamp, deleteDoc, doc
@@ -33,6 +40,10 @@ let reminders = [];
 let reminderOffset = 0;
 
 // ---------- Helpers ----------
+function isMobile() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
 function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, m => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
@@ -73,13 +84,36 @@ function pickTodayReminder() {
   return reminders[idx]?.text || "💗";
 }
 
+// ---------- Redirect return handler (mobile) ----------
+getRedirectResult(auth).catch((e) => {
+  // Ignore "no redirect in progress" type cases
+  if (e?.code && e.code !== "auth/no-auth-event") {
+    console.error("Redirect result error:", e);
+    who.textContent = `${e?.code || ""} — ${e?.message || "Unknown error"}`;
+  }
+});
+
 // ---------- Auth ----------
 loginBtn.onclick = async () => {
-  try { await signInWithPopup(auth, provider); }
-  catch (e) { console.error(e); who.textContent = "Sign in failed 😭"; }
+  try {
+    if (isMobile()) {
+      await signInWithRedirect(auth, provider);
+    } else {
+      await signInWithPopup(auth, provider);
+    }
+  } catch (e) {
+    console.error("Sign-in error:", e);
+    who.textContent = `${e?.code || ""} — ${e?.message || "Unknown error"}`;
+  }
 };
 
-logoutBtn.onclick = async () => signOut(auth);
+logoutBtn.onclick = async () => {
+  try {
+    await signOut(auth);
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 // ---------- Listeners ----------
 function listenReminders() {
@@ -172,7 +206,12 @@ function listenSongs() {
 
       row.querySelector(".deleteBtn").onclick = async () => {
         if (!confirm("Delete this song? 💔")) return;
-        await deleteDoc(doc(db, "songs", d.id));
+        try {
+          await deleteDoc(doc(db, "songs", d.id));
+        } catch (e) {
+          console.error(e);
+          alert("Could not delete 😭");
+        }
       };
 
       songsListEl.appendChild(row);
@@ -192,16 +231,21 @@ addSongBtn.onclick = async () => {
 
   if (!title) return;
 
-  await addDoc(collection(db, "songs"), {
-    title,
-    link,
-    authorId: user.uid,
-    authorName: user.displayName || email,
-    createdAt: serverTimestamp()
-  });
+  try {
+    await addDoc(collection(db, "songs"), {
+      title,
+      link,
+      authorId: user.uid,
+      authorName: user.displayName || email,
+      createdAt: serverTimestamp()
+    });
 
-  songTitleEl.value = "";
-  songLinkEl.value = "";
+    songTitleEl.value = "";
+    songLinkEl.value = "";
+  } catch (e) {
+    console.error(e);
+    alert("Could not save song 😭");
+  }
 };
 
 // ---------- Boot ----------
@@ -225,6 +269,8 @@ onAuthStateChanged(auth, (user) => {
   if (!ALLOWED_EMAILS.includes(email)) {
     who.textContent = `Signed in as ${email} (not allowed)`;
     appArea.classList.add("hidden");
+    loginBtn.classList.add("hidden");
+    logoutBtn.classList.remove("hidden");
     return;
   }
 

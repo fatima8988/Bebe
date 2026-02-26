@@ -1,5 +1,12 @@
 import { auth, provider, db } from "./firebase.js";
-import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+import {
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
 import {
   collection,
   addDoc,
@@ -14,7 +21,7 @@ import {
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
   "Niclaskuzio844@gmail.com"
-];
+].map((e) => e.toLowerCase());
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -28,16 +35,9 @@ const addBtn = document.getElementById("addBtn");
 const statusEl = document.getElementById("status");
 const listEl = document.getElementById("lettersList");
 
-loginBtn.onclick = async () => {
-  try {
-    await signInWithPopup(auth, provider);
-  } catch (e) {
-    console.error("Sign-in error:", e);
-    who.textContent = `${e?.code || ""} — ${e?.message || "Unknown error"}`;
-  }
-};
-
-logoutBtn.onclick = async () => signOut(auth);
+function isMobile() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
 
 function setStatus(msg) {
   statusEl.textContent = msg;
@@ -59,6 +59,37 @@ function formatDate(ts) {
   return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
+/* ---------- Redirect return handler (mobile) ---------- */
+getRedirectResult(auth).catch((e) => {
+  if (e?.code && e.code !== "auth/no-auth-event") {
+    console.error("Redirect result error:", e);
+    who.textContent = `${e?.code || ""} — ${e?.message || "Unknown error"}`;
+  }
+});
+
+/* ---------- Auth ---------- */
+loginBtn.onclick = async () => {
+  try {
+    if (isMobile()) {
+      await signInWithRedirect(auth, provider);
+    } else {
+      await signInWithPopup(auth, provider);
+    }
+  } catch (e) {
+    console.error("Sign-in error:", e);
+    who.textContent = `${e?.code || ""} — ${e?.message || "Unknown error"}`;
+  }
+};
+
+logoutBtn.onclick = async () => {
+  try {
+    await signOut(auth);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+/* ---------- Letters ---------- */
 function renderLetter(letter, id) {
   const div = document.createElement("div");
   div.className = "letter";
@@ -70,7 +101,9 @@ function renderLetter(letter, id) {
         ${escapeHtml(letter.authorName || "")}
         ${letter.createdAt ? " • " + formatDate(letter.createdAt) : ""}
         <button class="deleteBtn" title="Delete letter">🗑</button>
+      </div>
     </div>
+
     ${letter.title ? `<h3>${escapeHtml(letter.title)}</h3>` : ""}
     <p class="letterBody">${escapeHtml(letter.body || "")}</p>
   `;
@@ -86,7 +119,7 @@ function renderLetter(letter, id) {
     }
   };
 
-  return div; // ✅ IMPORTANT
+  return div;
 }
 
 function startListener() {
@@ -98,9 +131,7 @@ function startListener() {
 
   onSnapshot(q, (snap) => {
     listEl.innerHTML = "";
-    snap.forEach((d) => {
-      listEl.appendChild(renderLetter(d.data(), d.id));
-    });
+    snap.forEach((d) => listEl.appendChild(renderLetter(d.data(), d.id)));
   });
 }
 
@@ -108,18 +139,25 @@ onAuthStateChanged(auth, (user) => {
   if (!user) {
     who.textContent = "";
     appArea.classList.add("hidden");
+    loginBtn.classList.remove("hidden");
+    logoutBtn.classList.add("hidden");
     return;
   }
 
-  const email = user.email || "";
+  const email = (user.email || "").toLowerCase();
   if (!ALLOWED_EMAILS.includes(email)) {
     who.textContent = `Signed in as ${email} (not allowed)`;
     appArea.classList.add("hidden");
+    loginBtn.classList.add("hidden");
+    logoutBtn.classList.remove("hidden");
     return;
   }
 
   who.textContent = `Signed in as ${user.displayName || email}`;
   appArea.classList.remove("hidden");
+  loginBtn.classList.add("hidden");
+  logoutBtn.classList.remove("hidden");
+
   startListener();
 });
 
@@ -127,7 +165,7 @@ addBtn.onclick = async () => {
   const user = auth.currentUser;
   if (!user) return;
 
-  const email = user.email || "";
+  const email = (user.email || "").toLowerCase();
   if (!ALLOWED_EMAILS.includes(email)) return;
 
   const title = titleEl.value.trim();
@@ -162,7 +200,7 @@ addBtn.onclick = async () => {
   }
 };
 
-// 💌 Heart burst when saving a letter (kept from you)
+// 💌 Heart burst when saving a letter
 addBtn.addEventListener("click", () => {
   for (let i = 0; i < 12; i++) {
     const h = document.createElement("div");
