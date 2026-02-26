@@ -1,5 +1,12 @@
 import { auth, provider, db } from "./firebase.js";
-import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+import {
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
 import {
   collection,
   addDoc,
@@ -14,7 +21,7 @@ import {
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
   "Niclaskuzio844@gmail.com"
-].map(e => e.toLowerCase());
+].map((e) => e.toLowerCase());
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -32,16 +39,9 @@ const listEl = document.getElementById("list");
 let remindersCache = [];
 let randomOffset = 0;
 
-loginBtn.onclick = async () => {
-  try {
-    await signInWithPopup(auth, provider);
-  } catch (e) {
-    console.error("Sign-in error:", e);
-    who.textContent = `${e?.code || ""} — ${e?.message || "Unknown error"}`;
-  }
-};
-
-logoutBtn.onclick = async () => signOut(auth);
+function isMobile() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
 
 function setStatus(msg) {
   statusEl.textContent = msg;
@@ -57,7 +57,7 @@ function escapeHtml(str) {
   }[m]));
 }
 
-// Stockholm-ish stable “day key” by local browser time (good enough for you two)
+// “day key” by local device date (good enough for you two)
 function dayKey() {
   const d = new Date();
   const yyyy = d.getFullYear();
@@ -66,18 +66,14 @@ function dayKey() {
   return `${yyyy}-${mm}-${dd}`;
 }
 
-// Simple deterministic hash
 function hashString(s) {
   let h = 0;
-  for (let i = 0; i < s.length; i++) {
-    h = (h * 31 + s.charCodeAt(i)) >>> 0;
-  }
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
   return h;
 }
 
 function pickToday(reminders) {
   if (!reminders.length) return "Add your first reminder 💗";
-
   const base = hashString(dayKey());
   const idx = (base + randomOffset) % reminders.length;
   return reminders[idx]?.text || "💗";
@@ -100,7 +96,12 @@ function renderList(reminders) {
 
     row.querySelector(".deleteBtn").onclick = async () => {
       if (!confirm("Delete this reminder? 💔")) return;
-      await deleteDoc(doc(db, "dailyReminders", r.id));
+      try {
+        await deleteDoc(doc(db, "dailyReminders", r.id));
+      } catch (e) {
+        console.error(e);
+        alert("Could not delete 😭");
+      }
     };
 
     listEl.appendChild(row);
@@ -109,15 +110,45 @@ function renderList(reminders) {
 
 function startListener() {
   const q = query(collection(db, "dailyReminders"), orderBy("createdAt", "desc"));
-
   onSnapshot(q, (snap) => {
     remindersCache = [];
     snap.forEach((d) => remindersCache.push({ id: d.id, ...d.data() }));
-
     renderToday();
     renderList(remindersCache);
   });
 }
+
+/* ---------- AUTH ---------- */
+
+// Handle redirect return (mobile)
+getRedirectResult(auth).catch((e) => {
+  // Ignore “no redirect in progress” type states, show real errors
+  if (e?.code && e.code !== "auth/no-auth-event") {
+    console.error("Redirect result error:", e);
+    who.textContent = `${e?.code || ""} — ${e?.message || "Unknown error"}`;
+  }
+});
+
+loginBtn.onclick = async () => {
+  try {
+    if (isMobile()) {
+      await signInWithRedirect(auth, provider);
+    } else {
+      await signInWithPopup(auth, provider);
+    }
+  } catch (e) {
+    console.error("Sign-in error:", e);
+    who.textContent = `${e?.code || ""} — ${e?.message || "Unknown error"}`;
+  }
+};
+
+logoutBtn.onclick = async () => {
+  try {
+    await signOut(auth);
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 onAuthStateChanged(auth, (user) => {
   if (!user) {
@@ -132,6 +163,8 @@ onAuthStateChanged(auth, (user) => {
   if (!ALLOWED_EMAILS.includes(email)) {
     who.textContent = `Signed in as ${email} (not allowed)`;
     appArea.classList.add("hidden");
+    loginBtn.classList.add("hidden");
+    logoutBtn.classList.remove("hidden");
     return;
   }
 
@@ -142,6 +175,8 @@ onAuthStateChanged(auth, (user) => {
 
   startListener();
 });
+
+/* ---------- APP ---------- */
 
 addBtn.onclick = async () => {
   const user = auth.currentUser;

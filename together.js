@@ -7,7 +7,7 @@ import {
 
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
-  "niclaskuzio@icloud.com"
+  "Niclaskuzio844@gmail.com"
 ].map(e => e.toLowerCase());
 
 // ---------- Elements ----------
