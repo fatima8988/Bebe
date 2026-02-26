@@ -8,11 +8,21 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  // ✅ If you've already entered the universe in this tab/session, skip intro
+  if (sessionStorage.getItem("enteredUniverse") === "yes") {
+    intro.classList.add("hidden");
+    main.classList.remove("hidden");
+  }
+
   openBtn.addEventListener("click", () => {
     intro.classList.add("hidden");
     main.classList.remove("hidden");
+
+    // ✅ Remember for this tab/session (so "back home" goes straight to universe)
+    sessionStorage.setItem("enteredUniverse", "yes");
   });
 });
+
 // FLOATING HEARTS (debug-visible)
 (() => {
   const layer = document.querySelector(".hearts");
@@ -37,4 +47,3 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(spawn, 350);
   for (let i = 0; i < 10; i++) spawn();
 })();
-
