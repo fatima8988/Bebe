@@ -3,26 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <title>Memories 🌸</title>
-  <link rel="stylesheet" href="styles.css?v=99999" />
+<link rel="stylesheet" href="styles.css?v=10060">
+
 </head>
-
 <body>
-  <div class="hearts" aria-hidden="true"></div>
-
+    <div class="hearts" aria-hidden="true"></div>
   <div class="container" style="max-width: 900px; width: 100%;">
     <h1>Memories 🌸</h1>
 
-    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; align-items:center;">
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
       <button id="loginBtn">Sign in with Google</button>
-      <button id="logoutBtn" class="ghost hidden">Sign out</button>
+      <button id="logoutBtn" class="ghost">Sign out</button>
       <span id="who"></span>
     </div>
 
     <hr style="margin: 24px 0; opacity: 0.2;" />
 
     <div id="appArea" class="hidden">
-      <div class="card" style="margin-bottom: 18px; text-align:left;">
-        <h2 style="margin-top:0; text-align:center;">Add a memory</h2>
+      <div class="card" style="margin-bottom: 18px;">
+        <h2 style="margin-top:0;">Add a memory</h2>
 
         <input id="title" placeholder="Title (ex: Movie Night)"
           style="width:100%; padding:12px; border-radius:12px; border:1px solid #ffd1e3; margin-bottom:10px;" />
@@ -30,26 +29,27 @@
         <textarea id="description" placeholder="What happened? 🥺"
           style="width:100%; padding:12px; border-radius:12px; border:1px solid #ffd1e3; min-height:110px; margin-bottom:10px;"></textarea>
 
-        <!-- ✅ THIS ID MUST BE imageUrl -->
         <input id="imageUrl" placeholder="Photo link (optional)"
           style="width:100%; padding:12px; border-radius:12px; border:1px solid #ffd1e3; margin-bottom:10px;" />
 
-        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center;">
+        <div style="margin-top:12px;">
           <button id="addBtn">Add Memory</button>
-          <span id="status"></span>
+          <span id="status" style="margin-left:10px;"></span>
         </div>
       </div>
 
-      <div id="memoriesList" class="cards" style="flex-wrap:wrap; justify-content:center;"></div>
+      <div id="memoriesList" class="cards" style="flex-wrap:wrap;"></div>
     </div>
 
-    <p style="margin-top:20px; text-align:center;">
-      <button type="button" class="ghost backBtn" onclick="location.href='./index.html#main'">
-        ← back home
-      </button>
+    <p style="margin-top:20px;">
+      <button class="ghost backBtn" onclick="window.location.href='index.html'">
+  ← back home
+</button>
     </p>
   </div>
 
-  <script type="module" src="memories.js?v=99999"></script>
+<script type="module" src="memories.js?v=4"></script>
+
 </body>
 </html>
+
