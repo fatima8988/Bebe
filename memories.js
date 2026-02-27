@@ -157,10 +157,17 @@ onAuthStateChanged(auth, (user) => {
 /* ---------- Add memory ---------- */
 addBtn.onclick = async () => {
   const user = auth.currentUser;
-  if (!user) return;
+
+  if (!user) {
+    setStatus("Sign in first 💗");
+    return;
+  }
 
   const email = (user.email || "").toLowerCase();
-  if (!ALLOWED_EMAILS.includes(email)) return;
+  if (!ALLOWED_EMAILS.includes(email)) {
+    setStatus(`Not allowed: ${email}`);
+    return;
+  }
 
   const title = titleEl.value.trim();
   const description = descEl.value.trim();
@@ -188,7 +195,7 @@ addBtn.onclick = async () => {
     setStatus("Saved 💗");
     setTimeout(() => setStatus(""), 1500);
   } catch (e) {
-    console.error(e);
-    setStatus("Something went wrong 😭");
+    console.error("SAVE ERROR:", e);
+    setStatus(`${e?.code || "error"} 😭`);
   }
 };
