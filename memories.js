@@ -27,8 +27,8 @@ import {
       - Folder: (optional) "our-little-universe"
    3) Put values here:
 */
-const CLOUDINARY_CLOUD_NAME = "PUT_YOUR_CLOUD_NAME_HERE";
-const CLOUDINARY_UPLOAD_PRESET = "PUT_YOUR_UNSIGNED_PRESET_HERE";
+const CLOUDINARY_CLOUD_NAME = "de0lxkvor";
+const CLOUDINARY_UPLOAD_PRESET = "universe_upload";
 
 const ALLOWED_EMAILS = [
   "mi423ma@gmail.com",
