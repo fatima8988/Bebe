@@ -6,12 +6,20 @@ const firebaseConfig = {
   apiKey: "AIzaSyDu7La9wCafURGxc_OaTII6UpZ_Ibht7iM",
   authDomain: "our-little-universe-6eeef.firebaseapp.com",
   projectId: "our-little-universe-6eeef",
-  storageBucket: "our-little-universe-6eeef.firebasestorage.app",
+  // ✅ Correct format (even if you're not using Storage)
+  storageBucket: "our-little-universe-6eeef.appspot.com",
   messagingSenderId: "1038589404930",
   appId: "1:1038589404930:web:be694f21fb1eaf951f441b"
 };
 
 export const app = initializeApp(firebaseConfig);
+
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
+
+// Optional but helpful:
+provider.setCustomParameters({
+  prompt: "select_account"
+});
+
 export const db = getFirestore(app);

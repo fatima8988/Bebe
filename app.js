@@ -3,36 +3,49 @@ document.addEventListener("DOMContentLoaded", () => {
   const intro = document.getElementById("intro");
   const main = document.getElementById("main");
 
-  if (!openBtn || !intro || !main) {
-    console.error("Missing elements:", { openBtn, intro, main });
+  if (!intro || !main) {
+    console.error("Missing #intro or #main");
     return;
   }
 
-  // ✅ If you've already entered the universe in this tab/session, skip intro
-  if (sessionStorage.getItem("enteredUniverse") === "yes") {
+  function showMain() {
     intro.classList.add("hidden");
     main.classList.remove("hidden");
+    sessionStorage.setItem("enteredUniverse", "yes");
   }
 
-  openBtn.addEventListener("click", () => {
-    intro.classList.add("hidden");
-    main.classList.remove("hidden");
+  function showIntro() {
+    intro.classList.remove("hidden");
+    main.classList.add("hidden");
+    sessionStorage.removeItem("enteredUniverse");
+  }
 
-    // ✅ Remember for this tab/session (so "back home" goes straight to universe)
-    sessionStorage.setItem("enteredUniverse", "yes");
+  // ✅ If coming from "back home" or you've already entered this session
+  if (location.hash === "#main" || sessionStorage.getItem("enteredUniverse") === "yes") {
+    showMain();
+  } else {
+    showIntro();
+  }
+
+  if (openBtn) {
+    openBtn.addEventListener("click", () => {
+      location.hash = "main";
+      showMain();
+    });
+  }
+
+  // If user manually clears hash, you can optionally show intro again:
+  window.addEventListener("hashchange", () => {
+    if (location.hash === "#main") showMain();
   });
 });
 
-// FLOATING HEARTS (debug-visible)
+// FLOATING HEARTS
 (() => {
   const layer = document.querySelector(".hearts");
-  if (!layer) {
-    console.log("No .hearts element found");
-    return;
-  }
-  console.log("Hearts running ✅");
+  if (!layer) return;
 
-  const hearts = ["💗","💕","💖","💘","❤️"];
+  const hearts = ["💗", "💕", "💖", "💘", "❤️"];
 
   function spawn() {
     const h = document.createElement("div");
