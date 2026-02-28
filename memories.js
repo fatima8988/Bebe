@@ -106,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!titleEl) missing.push("title");
   if (!descEl) missing.push("description");
   if (!imageFileEl) missing.push("imageFile");
-  if (!imageUrlEl) missing.push("imageUrl");
   if (!addBtn) missing.push("addBtn");
   if (!statusEl) missing.push("status");
   if (!listEl) missing.push("memoriesList");
@@ -225,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const title = titleEl.value.trim();
     const description = descEl.value.trim();
-    const linkFallback = imageUrlEl.value.trim();
+    const linkFallback = "";
 
     // if file selected -> upload it
     const file = imageFileEl.files && imageFileEl.files[0] ? imageFileEl.files[0] : null;
@@ -255,7 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       titleEl.value = "";
       descEl.value = "";
-      imageUrlEl.value = "";
       imageFileEl.value = "";
 
       setStatus("Saved 💗");
