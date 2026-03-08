@@ -516,3 +516,48 @@ a.btnLink:hover {
 a.btnLink:active {
   transform: scale(0.96) !important;
 }
+
+@media (max-width: 600px) {
+
+  .container {
+    padding: 22px;
+    margin: 20px auto;
+    border-radius: 20px;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .cards {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .card {
+    width: 100%;
+    min-width: 0;
+  }
+
+}
+@media (max-width: 600px) {
+
+  button,
+  .btnLink {
+    width: 100%;
+    font-size: 17px;
+    padding: 14px;
+  }
+
+}
+@media (max-width: 500px) {
+
+  .collage {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+@media (max-width: 600px) {
+  .container { padding: 22px; }
+  .cards { flex-direction: column; }
+}
